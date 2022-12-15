@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -41,7 +42,18 @@ namespace FileSystem
             }
             Console.WriteLine($"\n{separator}");
         }
-        
+
+        //// Метод розширення який друкує масив
+        public static void PrintArrayInNewLine(this int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+
+                Console.WriteLine(arr[i]);
+            }
+
+        }
+
         //// Метод розширення який повертає прості числа з масиву
         public static int[] SimplyNum(this int[] arr)
         {
@@ -253,10 +265,45 @@ namespace FileSystem
 
 
 
-            int[] ifg = new int [9];
-            ifg.GenerateArray(0, 2);
+            int[] result = new int [textToInt.Length];
 
-            return ifg;
+            for (int i = 0; i < textToInt.Length; i++)
+                result[i] = int.Parse(textToInt[i]);
+
+            
+
+            return result;
+        }
+
+        //// Метод розширення повертає масив додатніх чисел
+        public static int[] GetPositiveIntArr(this int[] arr)
+        {
+            List<int> numb = new List<int>();
+
+            for(int i = 0; i < arr.Length; i++) 
+            {
+                if (arr[i] > 0)
+                {
+                    numb.Add(arr[i]);
+                }
+            }
+
+            return numb.ToArray();
+        }
+
+        //// Метод розширення повертає масив чисел згідно делегатної функції
+        public static int[] GetArrFromDelegate(this int[] arr, Func<int, bool> func)
+        {
+            List<int> numb = new List<int>();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (func(arr[i]))
+                {
+                    numb.Add(arr[i]);
+                }
+            }
+            return numb.ToArray();
         }
     }
 }

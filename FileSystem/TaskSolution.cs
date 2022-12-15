@@ -18,6 +18,7 @@ namespace FileSystem
             list.Add("Рішення Завдання №2");
             list.Add("Рішення Завдання №3 (Додаток Модератор)");
             list.Add("Рішення Завдання №4");
+            list.Add("Рішення Завдання №5");
             list.Add("Вихід");
 
             bool exit = false;
@@ -44,6 +45,9 @@ namespace FileSystem
                         tS.Task4();
                         break;
                     case 4:
+                        tS.Task5();
+                        break;
+                    case 5:
                         exit = true;
                         break;
                 }
@@ -86,7 +90,7 @@ namespace FileSystem
             Console.Clear();
 
             string text = "";
-            text = text.ReadFileTxt("../../../../ResultTask2/input.txt");
+            text = text.ReadFileTxt("../../../../InputFile/inputTask2.txt");
 
             Console.WriteLine("Текст:");
             Console.WriteLine(text);
@@ -200,6 +204,55 @@ namespace FileSystem
             Console.WriteLine("\nФайл з результатами збережено за адресою:");
             Console.WriteLine(path);
             Console.WriteLine("За для можливості перевірки роботи додатку умову збереження змінено! Додаток збереже в новий файл");
+
+            Console.ReadKey();
+        }
+
+        public void Task5()
+        {
+            Console.Clear();
+            int[] arr = new int[100000];
+            arr.GenerateArray(-99999, 99999);
+            arr.SaveArrayInTxt("../../../../InputFile", "/task5.txt");
+
+            //Делегати
+            Func<int, bool> equalsMore0 = x => x > 0;
+            Func<int, bool> equalsLess0 = x => x < 0;
+            Func<int, bool> equalsTwoDigit = x => (-x > 9 && -x < 100) || (x > 9 && x < 100);
+            Func<int, bool> equalsfiveDigit = x => (-x > 9999 && -x < 100000) || (x > 9999 && x < 100000);
+
+            //////Додатні числа
+            int[] positiveIntArr = null;
+            positiveIntArr = (positiveIntArr.ReadFileInt("../../../../InputFile/task5.txt")).GetArrFromDelegate(equalsMore0);
+            positiveIntArr.SaveArrayInTxt("../../../../ResultTask5", "/PositiveInt.txt");
+            //////Від'ємні числа
+            int[] negativeIntArr = null;
+            negativeIntArr = (negativeIntArr.ReadFileInt("../../../../InputFile/task5.txt")).GetArrFromDelegate(equalsLess0);
+            negativeIntArr.SaveArrayInTxt("../../../../ResultTask5", "/NegativeInt.txt");
+            //////Двозначні числа
+            int[] twoDigitIntArr = null;
+            twoDigitIntArr = (twoDigitIntArr.ReadFileInt("../../../../InputFile/task5.txt")).GetArrFromDelegate(equalsTwoDigit);
+            twoDigitIntArr.SaveArrayInTxt("../../../../ResultTask5", "/twoDigitInt.txt");
+            //////П'ятизначні числа
+            int[] fiveDigitIntArr = null;
+            fiveDigitIntArr = (fiveDigitIntArr.ReadFileInt("../../../../InputFile/task5.txt")).GetArrFromDelegate(equalsfiveDigit);
+            fiveDigitIntArr.SaveArrayInTxt("../../../../ResultTask5", "/fiveDigitInt.txt");
+
+            //Друк статистики
+            Console.WriteLine("Cтатистика:".PadCenter(110));
+            Console.WriteLine($"\nОтриминий початковий масив має розмір = {arr.Length}");
+            Console.WriteLine($"Кількість додатніх чисел у масиві = {positiveIntArr.Length}");
+            Console.WriteLine($"Кількість від'ємних чисел у масиві = {negativeIntArr.Length}");
+            Console.WriteLine($"Кількість двозначиних чисел у масиві = {twoDigitIntArr.Length}");
+            Console.WriteLine($"Кількість п'ятизначних чисел у масиві = {fiveDigitIntArr.Length}");
+
+            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());
+            string path = d.Parent.ToString();
+            path = path.Remove(path.Length - 10) + @"\ResultTask5";
+
+            Console.WriteLine("\nФайли з результатами збережено у теці ResultTask5 яка знаходиться:");
+            Console.WriteLine(path);
+            Console.ReadKey();
 
             Console.ReadKey();
         }
